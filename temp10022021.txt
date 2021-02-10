@@ -90,3 +90,19 @@ public class EmployeeImpl implements  EmployeeDao{
         return finalData;
     }
 }
+
+
+public class PriorityQueueApp {
+
+    public static void main(String[] args){
+        PriorityQueue<Employee> priorityQueue=new PriorityQueue<Employee>();
+        for(Employee employee:new EmployeeImpl().getAllEmployees()){
+            priorityQueue.add(employee);
+        }
+        while(!priorityQueue.isEmpty()){
+            System.out.println(priorityQueue.poll());
+        }
+
+    }
+}
+
