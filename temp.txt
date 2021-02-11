@@ -7,3 +7,9 @@ implementation 'org.projectlombok:lombok:1.18.16'
               .filter(p->p.getProductId()==productId)
               .findFirst().orElse(null);
      productList.remove(product);
+     
+     
+     Order order= orders.entrySet().stream().filter(o->o.getKey().getOrderId()==orderId)
+               .map(Map.Entry::getKey)
+               .findFirst().orElse(null);
+       orders.remove(order);
