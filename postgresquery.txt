@@ -1,0 +1,1 @@
+create table Category (Item_Code int, Item_Name varchar(50), Unit_Price int, Quantity int, Constraint Item_Code_Pk Primary Key(Item_code));
