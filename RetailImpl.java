@@ -85,9 +85,9 @@ public class RetailImpl implements RetailDao {
     }
 
     @Override
-    public List<Category> getAllCategories(int type) throws SQLException {
+    public List<? extends Category> getAllCategories(int type) throws SQLException {
          conn=PostgresConnHelper.getConnection();
-         List<Category> categoryList=new ArrayList<Category>();
+         List<Category> categoryList=null;
          List<FoodItems> foodItemsList=new ArrayList<FoodItems>();
          List<Apparel> apparelList=new ArrayList<Apparel>();
          List<Electronics> electronicsList=new ArrayList<Electronics>();
@@ -97,6 +97,7 @@ public class RetailImpl implements RetailDao {
          String query=null;
         switch(type){
             case 1:
+                categoryList=new ArrayList<Category>();
                 query=resourceBundle.getString("selectfooditems");
                 statement=conn.createStatement();
                 resultSet=statement.executeQuery(query);
@@ -111,6 +112,7 @@ public class RetailImpl implements RetailDao {
                 categoryList.addAll(foodItemsList);
                 break;
             case 2:
+                categoryList=new ArrayList<Category>();
                 query=resourceBundle.getString("selectapparels");
                 statement=conn.createStatement();
                 resultSet=statement.executeQuery(query);
@@ -129,6 +131,7 @@ public class RetailImpl implements RetailDao {
                 categoryList.addAll(apparelList);
                 break;
             case 3:
+                categoryList=new ArrayList<Category>();
                 query=resourceBundle.getString("selectelectronics");
                 statement=conn.createStatement();
                 resultSet=statement.executeQuery(query);
@@ -145,8 +148,7 @@ public class RetailImpl implements RetailDao {
 
         }
 
-
-        return categoryList;
+      return categoryList;
     }
 
     @Override

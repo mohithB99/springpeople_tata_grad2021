@@ -9,7 +9,7 @@ import java.util.List;
 public interface RetailDao {
 
     void addCategory(Category category) throws SQLException;
-    List<Category> getAllCategories();
+    List<? extends Category> getAllCategories(int type) throws SQLException;
     Category getCategoryById(long categoryId);
     boolean deleteCategory(long categoryId);
     Category updateCategory(Category category);
