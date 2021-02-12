@@ -1,3 +1,8 @@
 create table Category (Item_Code int, Item_Name varchar(50), Unit_Price int, Quantity int, Constraint Item_Code_Pk Primary Key(Item_code));
 
 create table FoodItems (DOM Date, DOE Date,Vegetarian bit, Item_Code_Ref int, Constraint FoodItem_Fk Foreign Key(Item_Code_Ref) References Category(Item_code));
+
+create table Apparel(Size int, Material int, Item_Code_Ref int, Constraint Electronics_Fk Foreign Key(Item_Code_Ref) References Category(Item_code));
+
+create table Electronics(Warranty int, Item_Code_Ref int, Constraint Electronics_Fk Foreign Key(Item_Code_Ref) References Category(Item_code));
+
