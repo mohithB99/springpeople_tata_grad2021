@@ -3,16 +3,16 @@ package com.everyday.dao;
 import com.everyday.helpers.PostgresConnHelper;
 import com.everyday.models.*;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class RetailImpl implements RetailDao {
     private Connection conn;
     private PreparedStatement pre,epre,fpre,apre;
+    private Statement statement;
+    private ResultSet resultSet;
     private ResourceBundle resourceBundle;
     private FoodItems foodItem;
     private Apparel apparel;
@@ -47,8 +47,9 @@ public class RetailImpl implements RetailDao {
            if(category instanceof FoodItems){
                fpre.setDate(1, Date.valueOf(((FoodItems) category).getDoe()));
                fpre.setDate(2,Date.valueOf(((FoodItems) category).getDom()));
-               fpre.setBoolean(3,((FoodItems) category).isVegetarian());
-               fpre.setLong(4,category.getItemCode());
+               fpre.setLong(3,category.getItemCode());
+               fpre.setBoolean(4,((FoodItems) category).isVegetarian());
+
                fpre.executeUpdate();
            }
             if(category instanceof Apparel){
@@ -84,8 +85,68 @@ public class RetailImpl implements RetailDao {
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        return null;
+    public List<Category> getAllCategories(int type) throws SQLException {
+         conn=PostgresConnHelper.getConnection();
+         List<Category> categoryList=new ArrayList<Category>();
+         List<FoodItems> foodItemsList=new ArrayList<FoodItems>();
+         List<Apparel> apparelList=new ArrayList<Apparel>();
+         List<Electronics> electronicsList=new ArrayList<Electronics>();
+         FoodItems foodItems=null;
+         Apparel apparel=null;
+         Electronics electronics=null;
+         String query=null;
+        switch(type){
+            case 1:
+                query=resourceBundle.getString("selectfooditems");
+                statement=conn.createStatement();
+                resultSet=statement.executeQuery(query);
+                while(resultSet.next()){
+                  foodItems=new FoodItems();
+                  foodItems.setItemCode(resultSet.getLong(1));
+                  foodItems.setItemName(resultSet.getString(2));
+                  foodItems.setQuantity(resultSet.getInt(3));
+                  foodItems.setVegetarian(resultSet.getBoolean(4));
+                  foodItemsList.add(foodItems);
+                }
+                categoryList.addAll(foodItemsList);
+                break;
+            case 2:
+                query=resourceBundle.getString("selectapparels");
+                statement=conn.createStatement();
+                resultSet=statement.executeQuery(query);
+                while(resultSet.next()){
+                    apparel=new Apparel();
+                    apparel.setItemCode(resultSet.getLong(1));
+                    apparel.setItemName(resultSet.getString(2));
+                    apparel.setQuantity(resultSet.getInt(3));
+                    apparel.setSize(resultSet.getInt(4));
+                   if(resultSet.getInt(5)==1)
+                      apparel.setMaterial(Material.Cotton);
+                   else
+                       apparel.setMaterial(Material.Woolen);
+                    apparelList.add(apparel);
+                }
+                categoryList.addAll(apparelList);
+                break;
+            case 3:
+                query=resourceBundle.getString("selectelectronics");
+                statement=conn.createStatement();
+                resultSet=statement.executeQuery(query);
+                while(resultSet.next()){
+                   electronics=new Electronics();
+                    electronics.setItemCode(resultSet.getLong(1));
+                    electronics.setItemName(resultSet.getString(2));
+                    electronics.setQuantity(resultSet.getInt(3));
+                     electronics.setWarranty(resultSet.getByte(4));
+                    electronicsList.add(electronics);
+                }
+                categoryList.addAll(electronicsList);
+                break;
+
+        }
+
+
+        return categoryList;
     }
 
     @Override
