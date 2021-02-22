@@ -1,0 +1,55 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+  <!-- creating the instance -->
+  
+  <bean id="person" class="com.hsbc.banking.models.Person">  
+   <property name="ssn" value="28458428"></property>
+   <property name="personName" value="Roopa"></property>  
+  </bean>
+  
+  <bean id="date" class="java.util.Date">
+  <constructor-arg index="0" value="80"></constructor-arg>
+  <constructor-arg index="1" value="7"></constructor-arg>
+  <constructor-arg index="2" value="26"></constructor-arg>
+  </bean>
+  
+  <bean id="platinumCustomer" class="com.hsbc.banking.models.PlatinumCustomer" parent="person">
+  
+  <constructor-arg index="0" ref="date"></constructor-arg>
+  </bean>
+
+  <bean id="customer" class="com.hsbc.banking.models.SilverCustomer" parent="person">
+   <constructor-arg index="0" ref="date"></constructor-arg>
+  </bean>
+	
+ <!-- DI -->
+  <bean id="bank" class="com.hsbc.banking.models.Bank">
+  <property name="bankName" value="HDFC"></property>
+  <property name="address" value="Chennai"></property> 
+  <property name="branchList">
+  <list>
+  <ref bean="branch1"/>
+  <ref bean="branch2"/>
+  </list>
+  </property> 
+  </bean>	    
+  
+  <bean id="branch1" class="com.hsbc.banking.models.Branch">
+   <property name="branchCode" value="b123"></property>
+   <property name="branchAddress" value="Mylapore"></property>  
+  </bean>
+  
+  <bean id="branch2" class="com.hsbc.banking.models.Branch">
+   <property name="branchCode" value="b124"></property>
+   <property name="branchAddress" value="Adyar"></property>  
+  </bean>
+  
+  
+	
+</beans>
