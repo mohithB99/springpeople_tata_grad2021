@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: webstoreapp
+  name: webstoreapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webstoreapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webstoreapp
+    spec:
+      containers:
+      - image: eswaribala/webstorerepo:v2
+        name: v1
+        resources: {}
+        env:
+            - name: POSTGRES_URL
+              value: jdbc:postgresql://postgres:5432/webstoredb
+               
+
+status: {}
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: webstoreapp
+  name: webstoreservice
+spec:
+  ports:
+  - name: 7070-7070
+    port: 7070
+    protocol: TCP
+    targetPort: 7070
+  selector:
+    app: webstoreapp
+  type: ClusterIP
+status:
+  loadBalancer: {}
