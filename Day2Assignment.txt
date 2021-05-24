@@ -1,0 +1,18 @@
+Lab Exercise
+
+Exercise Objective(s):Collections and arrays classes
+
+Exercise:Create a class called CD whose attributes are Title and singer.  Arrange the CDs in ascending 
+order based on the singer name. 
+
+Recommended duration: 20 Mins
+
+Solution Guidance (if applicable): NA
+
+
+Test Cases using Junit
+
+Coverage 80%
+
+
+

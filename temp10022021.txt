@@ -1,0 +1,108 @@
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Employee {
+    private long employeeId;
+    private String name;
+    private long mobileNo;
+}
+
+
+
+import com.tata.storeapp.models.Employee;
+import java.util.Hashtable;
+import java.util.List;
+
+public interface EmployeeDao {
+    List<Employee> getAllEmployees();
+    List<Employee> generateOutstandingList();
+    Hashtable<Employee,Integer> countOutstandingEmployees();
+
+}
+
+
+
+
+import com.tata.storeapp.models.Employee;
+import com.tata.storeapp.models.Transaction;
+import com.tata.storeapp.models.TransactionType;
+
+import java.time.LocalDate;
+import java.util.*;
+
+public class EmployeeImpl implements  EmployeeDao{
+
+    private List<Employee> getEmployeeData(){
+        Employee employee=null;
+        List<Employee> employeeList=new ArrayList<Employee>();
+        for(int i=0;i<100;i++){
+
+            employee=new Employee(new Random().nextInt(100000),
+                    "emp"+i,999999999+new Random().nextInt(10000000));
+           employeeList.add(employee);
+        }
+
+        return employeeList;
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return getEmployeeData();
+    }
+
+    public List<Employee> generateOutstandingList(){
+
+        List<Employee> outStandingEmployeeList=new ArrayList<Employee>();
+        //three years
+        for(int i=0;i<3;i++){
+            //yearwise
+            for(int j=0;j<10;j++)
+            {
+                outStandingEmployeeList.add(getAllEmployees()
+                        .get(new Random().nextInt(99)));
+            }
+        }
+
+        return outStandingEmployeeList;
+
+    }
+
+
+    @Override
+    public Hashtable<Employee, Integer> countOutstandingEmployees() {
+
+        Hashtable<Employee, Integer> finalData=new Hashtable<Employee,Integer>();
+        LinkedHashSet<Employee> lset=new LinkedHashSet<Employee>();
+        int count=1;
+        for(Employee employee :generateOutstandingList()){
+             if(!lset.add(employee)) {
+                 count++;
+                 finalData.put(employee,count);
+             }
+        }
+
+
+        return finalData;
+    }
+}
+
+
+public class PriorityQueueApp {
+
+    public static void main(String[] args){
+        PriorityQueue<Employee> priorityQueue=new PriorityQueue<Employee>();
+        for(Employee employee:new EmployeeImpl().getAllEmployees()){
+            priorityQueue.add(employee);
+        }
+        while(!priorityQueue.isEmpty()){
+            System.out.println(priorityQueue.poll());
+        }
+
+    }
+}
+

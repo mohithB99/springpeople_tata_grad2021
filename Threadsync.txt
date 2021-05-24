@@ -1,0 +1,18 @@
+Exercise Objective(s):Synchronization
+
+Exercise:Write an application to simulate the vehicles crossing a bridge and a toll plaza on a highway.
+ For the purpose of this exercise, simulate the environment for five vehicles that are 
+approaching the bridge and the toll booth. The vehicles are numbered from one to five. The 
+vehicles should approach the bridge and the toll booth in sequential order. The toll booth can 
+only deal with one vehicle at a time. This application should print a message every time when 
+a vehicle crosses the bridge and another message when a vehicle crosses the toll booth along 
+with the vehicle number.
+
+Recommended duration: 20 Mins
+
+Solution Guidance (if applicable):The simulation is performed by having one thread for each vehicle.
+and consists of four classes:
+-Vehicle: Simulate the behavior of a vehicle
+-Bridge:Simulate the behavior of a Bridge
+-TollBooth: Simulate the behavior of a TollBooth
+-Simulate: creates the vehicles and controls the simulation.
